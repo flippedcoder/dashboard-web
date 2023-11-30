@@ -9,7 +9,8 @@
     "format": "prettier . --write",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "echo test"
   },
   "dependencies": {
     "react": "^18.2.0",
