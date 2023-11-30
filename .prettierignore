@@ -1,0 +1,12 @@
+# Ignore artifacts:
+build
+
+# Ignore all HTML files:
+**/*.html
+
+# Ignore other config files:
+**/*.json
+.prettierrc
+.eslintrc.cjs
+src/vite-env.d.ts
+vite.config.ts
