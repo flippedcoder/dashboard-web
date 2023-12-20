@@ -1,24 +1,30 @@
-import { useState } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
+import styled from 'styled-components'
 import theme from './theme'
+import NavBar from './components/NavBar'
+import Box from '@mui/material/Box'
 
-function App() {
-  const [count, setCount] = useState(0)
+const AppContainer = styled(Box)`
+  display: flex;
+  width: 100%;
+`
 
+const App = () => {
+  // Do some stuff here
   return (
     <ThemeProvider theme={theme}>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <AppContainer>
+        <NavBar />
+        <Box
+          component="main"
+          sx={{
+            width: `calc(100% - 240px)`,
+            ml: `240px`,
+          }}
+        >
+          Click on the Vite and React logos to learn more
+        </Box>
+      </AppContainer>
     </ThemeProvider>
   )
 }
