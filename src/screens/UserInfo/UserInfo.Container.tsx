@@ -6,7 +6,7 @@ const Container = styled.div`
   width: 100%;
 `
 
-const UserInfoContainer = async () => {
+const UserInfoContainer = () => {
   // Fetch user info from the backend here
 
   return (

@@ -1,29 +1,29 @@
 import { ThemeProvider } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import { RouterProvider } from 'react-router-dom'
 import styled from 'styled-components'
 import theme from './theme'
 import NavBar from './components/NavBar'
-import Box from '@mui/material/Box'
+import router from './routes'
 
 const AppContainer = styled(Box)`
   display: flex;
-  width: 100%;
+`
+
+const CurrentScreen = styled(Box)`
+  width: calc(100% - 240px);
+  margin-left: 240px;
 `
 
 const App = () => {
   // Do some stuff here
   return (
     <ThemeProvider theme={theme}>
-      <AppContainer>
+      <AppContainer component="main">
         <NavBar />
-        <Box
-          component="main"
-          sx={{
-            width: `calc(100% - 240px)`,
-            ml: `240px`,
-          }}
-        >
-          Click on the Vite and React logos to learn more
-        </Box>
+        <CurrentScreen component="section">
+          <RouterProvider router={router} />
+        </CurrentScreen>
       </AppContainer>
     </ThemeProvider>
   )
