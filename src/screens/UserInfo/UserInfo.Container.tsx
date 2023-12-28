@@ -6,7 +6,7 @@ const Container = styled.div`
   width: 100%;
 `
 
-const UserInfoContainer = () => {
+const UserInfo = () => {
   // Fetch user info from the backend here
 
   return (
@@ -19,4 +19,4 @@ const UserInfoContainer = () => {
   )
 }
 
-export default UserInfoContainer
+export default UserInfo
