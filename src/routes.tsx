@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom'
-import UserInfoContainer from './screens/UserInfo/UserInfo.Container'
+import UserInfo from './screens/UserInfo'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <UserInfoContainer />,
+    element: <UserInfo />,
   },
   {
     path: '/actions',
