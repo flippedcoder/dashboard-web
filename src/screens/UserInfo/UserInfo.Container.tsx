@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import CircularProgress from '@mui/material/CircularProgress'
+import { useQuery } from '@tanstack/react-query'
 import styled from 'styled-components'
 import { useSnapshot } from 'valtio'
-import { Order, OrderStatus, orderStore, updateOrders } from './UserInfo.State'
+import { orderStore, updateOrders } from './UserInfo.State'
 
 const Container = styled.div`
   background-color: 
@@ -25,48 +28,51 @@ const initialUserInfo = {
   nextDeliveryDate: '',
 }
 
-const orderResponseData: Order[] = [
-  {
-    id: 'db4be77c-cd14-441a-8ae1-35e0c037a842',
-    productName: 'Fancy soap',
-    status: OrderStatus.Shipped,
-    orderedDate: '06/24/2025',
-    deliveryDate: '06/27/2025',
-    totalAmount: 400,
-    hasBeenReviewed: true,
-  },
-]
-
-const userResponseData: UserInfo = {
-  name: 'Some Body',
-  joinedDate: '10/21/2002',
-  recentOrders: 2,
-  newProducts: 6,
-  nextDeliveryDate: '07/27/2025',
-}
-
 const UserInfo = () => {
   const orderSnap = useSnapshot(orderStore)
 
   const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo)
 
-  useEffect(() => {
-    // Fetch user info and orders from the backend here
+  const {
+    isLoading: ordersIsLoading,
+    error: ordersErrors,
+    data: orderData,
+  } = useQuery({
+    queryKey: ['orderData'],
+    queryFn: () => axios.get('/v1/orders').then((res) => res.data),
+  })
 
-    setUserInfo(userResponseData)
-    updateOrders(orderResponseData)
-  }, [])
+  const {
+    isLoading: userIsLoading,
+    error: userErrors,
+    data: userData,
+  } = useQuery({
+    queryKey: ['userData'],
+    queryFn: () =>
+      axios.get(`${import.meta.env.API_URL}/v1/users`).then((res) => res.data),
+  })
+
+  useEffect(() => {
+    setUserInfo(userData)
+    updateOrders(orderData)
+  }, [orderData, userData])
+
+  if (userIsLoading) return <CircularProgress />
+
+  if (userErrors || ordersErrors) return 'Something weird happened'
 
   return (
     <Container>
       <div>
         <div>{userInfo.name}</div>
         <div>Search bar</div>
-        <div>
-          {orderSnap.orders.map((order) => (
+        {ordersIsLoading ? (
+          <CircularProgress color="secondary" />
+        ) : (
+          orderSnap.orders.map((order) => (
             <div key={order.id}>{order.productName}</div>
-          ))}
-        </div>
+          ))
+        )}
       </div>
     </Container>
   )
