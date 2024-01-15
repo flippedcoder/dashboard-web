@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress'
+import Container from '@mui/material/Container'
+import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
-import styled from 'styled-components'
 import { useSnapshot } from 'valtio'
 import { orderStore, updateOrders } from './UserInfo.State'
+import Header from '../../components/Header'
 
-const Container = styled.div`
-  background-color: 
-  height: 100vh;
-  width: 100%;
-`
-
-export interface UserInfo {
+export interface UserInfoData {
   name: string
   joinedDate: string
   recentOrders: number
@@ -31,7 +26,7 @@ const initialUserInfo = {
 const UserInfo = () => {
   const orderSnap = useSnapshot(orderStore)
 
-  const [userInfo, setUserInfo] = useState<UserInfo>(initialUserInfo)
+  const [userInfo, setUserInfo] = useState<UserInfoData>(initialUserInfo)
 
   const {
     isLoading: ordersIsLoading,
@@ -57,15 +52,22 @@ const UserInfo = () => {
     updateOrders(orderData)
   }, [orderData, userData])
 
+  const onSubmitProductSearch = (searchText: string) => {
+    console.log('Search text', searchText)
+  }
+
   if (userIsLoading) return <CircularProgress />
 
   if (userErrors || ordersErrors) return 'Something weird happened'
 
   return (
-    <Container>
-      <div>
-        <div>{userInfo.name}</div>
-        <div>Search bar</div>
+    <Container component="section">
+      <Header
+        userName={userInfo.name}
+        joinedDate={userInfo.joinedDate}
+        onSubmitSearch={onSubmitProductSearch}
+      />
+      <div aria-label="orders-table">
         {ordersIsLoading ? (
           <CircularProgress color="secondary" />
         ) : (
