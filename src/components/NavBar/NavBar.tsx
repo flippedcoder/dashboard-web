@@ -4,6 +4,8 @@ const NavBar = () => {
   // get allowed options based on user role
   return (
     <Drawer
+      aria-label="main-navigation"
+      component="aside"
       variant="permanent"
       ModalProps={{
         keepMounted: false,
@@ -17,7 +19,11 @@ const NavBar = () => {
         },
       }}
     >
-      <div>Items</div>
+      <nav>Orders</nav>
+      <nav>Actions</nav>
+      <nav>Products</nav>
+      <nav>Settings</nav>
+      <nav>Logout</nav>
     </Drawer>
   )
 }
