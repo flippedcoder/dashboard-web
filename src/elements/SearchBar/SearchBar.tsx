@@ -1,35 +1,58 @@
-import { FormControl, Input, InputAdornment } from '@mui/material'
+import { Input, InputAdornment } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
+import { Form, Field } from 'react-final-form'
+import styled from 'styled-components'
 
 interface SearchBarProps {
   name: string
+  onSubmitSearch: (searchText: string) => void
 }
 
-const SearchBar = (props: SearchBarProps) => {
-  const inputProps = {
-    minLength: 3,
-  }
+const FullWidthForm = styled.form`
+  width: 450px;
 
-  const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+`
+
+const SearchBar = (props: SearchBarProps) => {
+  const { onSubmitSearch } = props
+  const searchFieldInputProps = {
+    minLength: 3,
+    required: true,
   }
 
   return (
-    <FormControl variant="standard">
-      <Input
-        id={props.name}
-        inputProps={inputProps}
-        name={props.name}
-        onChange={(e) => handleSearch(e)}
-        placeholder={`Search ${props.name}...`}
-        startAdornment={
-          <InputAdornment position="start">
-            <SearchIcon />
-          </InputAdornment>
-        }
-        type="search"
-      />
-    </FormControl>
+    <Form
+      onSubmit={onSubmitSearch}
+      render={({ handleSubmit }) => (
+        <FullWidthForm
+          aria-label={`${props.name}-search-form`}
+          onSubmit={handleSubmit}
+        >
+          <Field
+            name="search"
+            render={({ input }) => (
+              <Input
+                aria-label={`${props.name}-search-input`}
+                id={`${props.name}Search`}
+                placeholder={`Search ${props.name}...`}
+                type="search"
+                fullWidth
+                inputProps={searchFieldInputProps}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+                {...input}
+              />
+            )}
+          />
+        </FullWidthForm>
+      )}
+    />
   )
 }
 
