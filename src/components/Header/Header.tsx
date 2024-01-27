@@ -6,6 +6,11 @@ import { Typography, colors } from '@mui/material'
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 500px) {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
 `
 
 const UserAccountContainer = styled.div`

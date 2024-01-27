@@ -6,6 +6,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useSnapshot } from 'valtio'
 import { orderStore, updateOrders } from './UserInfo.State'
 import Header from '../../components/Header'
+import { userResponseData } from '../../mocks/users'
+import { orderResponseData } from '../../mocks/orders'
 
 export interface UserInfoData {
   name: string
@@ -48,8 +50,8 @@ const UserInfo = () => {
   })
 
   useEffect(() => {
-    setUserInfo(userData)
-    updateOrders(orderData)
+    setUserInfo(userResponseData)
+    updateOrders(orderResponseData)
   }, [orderData, userData])
 
   const onSubmitProductSearch = (searchText: string) => {

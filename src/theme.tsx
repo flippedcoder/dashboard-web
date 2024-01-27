@@ -1,13 +1,33 @@
 import { createTheme } from '@mui/material/styles'
-import { blue, orange } from '@mui/material/colors'
+import { colors } from '@mui/material'
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: blue[900],
+      main: colors.blue[900],
     },
     secondary: {
-      main: orange[400],
+      main: colors.orange[400],
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: '#4C4C4C',
+          borderRadius: '4px',
+          background: '#B4CD93',
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#F2F2F2',
+          boxSizing: 'border-box',
+          width: '240px',
+        },
+      },
     },
   },
 })

@@ -14,6 +14,11 @@ const AppContainer = styled(Box)`
 const CurrentScreen = styled(Box)`
   width: calc(100% - 240px);
   margin-left: 240px;
+
+  @media (max-width: 500px) {
+    margin-left: 0;
+    width: 100%;
+  }
 `
 // Create a client
 const queryClient = new QueryClient()

@@ -10,6 +10,10 @@ interface SearchBarProps {
 
 const FullWidthForm = styled.form`
   width: 450px;
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `
 
 const SearchBar = (props: SearchBarProps) => {
