@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useErrorBoundary } from 'react-error-boundary'
 import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
 import axios from 'axios'
@@ -29,6 +30,7 @@ const UserInfo = () => {
   const orderSnap = useSnapshot(orderStore)
 
   const [userInfo, setUserInfo] = useState<UserInfoData>(initialUserInfo)
+  const { showBoundary } = useErrorBoundary()
 
   const {
     isLoading: ordersIsLoading,
@@ -60,7 +62,7 @@ const UserInfo = () => {
 
   if (userIsLoading) return <CircularProgress />
 
-  if (userErrors || ordersErrors) return 'Something weird happened'
+  if (userErrors || ordersErrors) showBoundary(userErrors || ordersErrors)
 
   return (
     <Container component="section">
