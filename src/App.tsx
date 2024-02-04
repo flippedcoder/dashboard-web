@@ -1,11 +1,14 @@
 import { ThemeProvider } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { RouterProvider } from 'react-router-dom'
+import { ErrorBoundary } from 'react-error-boundary'
+import { BrowserRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import theme from './theme'
 import NavBar from './components/NavBar'
-import router from './routes'
+import { ErrorFallback } from './components/ErrorFallbacks'
+import { logError } from './utils/helpers'
+import Router from './routes'
 
 const AppContainer = styled(Box)`
   display: flex;
@@ -26,16 +29,24 @@ const queryClient = new QueryClient()
 const App = () => {
   // Do some stuff here
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <AppContainer component="main">
-          <NavBar />
-          <CurrentScreen component="section">
-            <RouterProvider router={router} />
-          </CurrentScreen>
-        </AppContainer>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={logError}
+      onReset={() => window.location.reload()}
+    >
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <AppContainer component="main">
+            <NavBar />
+            <CurrentScreen component="section">
+              <BrowserRouter>
+                <Router />
+              </BrowserRouter>
+            </CurrentScreen>
+          </AppContainer>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   )
 }
 

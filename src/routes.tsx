@@ -1,15 +1,19 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { useRoutes } from 'react-router-dom'
 import UserInfo from './screens/UserInfo'
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <UserInfo />,
-  },
-  {
-    path: '/actions',
-    element: <div>Actions go burr</div>,
-  },
-])
+const Router = () => {
+  const routes = useRoutes([
+    {
+      path: '/',
+      element: <UserInfo />,
+    },
+    {
+      path: '/actions',
+      element: <div>Actions go burr</div>,
+    },
+  ])
 
-export default router
+  return routes
+}
+
+export default Router

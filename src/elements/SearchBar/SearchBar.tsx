@@ -18,7 +18,9 @@ const FullWidthForm = styled.form`
 
 const SearchBar = (props: SearchBarProps) => {
   const { onSubmitSearch } = props
+
   const searchFieldInputProps = {
+    maxLength: 15,
     minLength: 3,
     required: true,
   }
