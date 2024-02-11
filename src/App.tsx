@@ -37,12 +37,12 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <AppContainer component="main">
-            <NavBar />
-            <CurrentScreen component="section">
-              <BrowserRouter>
+            <BrowserRouter>
+              <NavBar />
+              <CurrentScreen component="section">
                 <Router />
-              </BrowserRouter>
-            </CurrentScreen>
+              </CurrentScreen>
+            </BrowserRouter>
           </AppContainer>
         </ThemeProvider>
       </QueryClientProvider>
