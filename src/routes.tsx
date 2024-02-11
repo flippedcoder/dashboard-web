@@ -9,7 +9,7 @@ const Router = () => {
     },
     {
       path: '/actions',
-      element: <div>Actions go burr</div>,
+      element: <div>Actions are here</div>,
     },
   ])
 

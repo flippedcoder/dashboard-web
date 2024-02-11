@@ -4,8 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
-import { useSnapshot } from 'valtio'
-import { orderStore, updateOrders } from './UserInfo.State'
+import { Order } from './UserInfo.State'
 import Header from '../../components/Header'
 import { userResponseData } from '../../mocks/users'
 import { orderResponseData } from '../../mocks/orders'
@@ -27,9 +26,9 @@ const initialUserInfo = {
 }
 
 const UserInfo = () => {
-  const orderSnap = useSnapshot(orderStore)
-
+  const [orders, setOrders] = useState<Order[]>([])
   const [userInfo, setUserInfo] = useState<UserInfoData>(initialUserInfo)
+
   const { showBoundary } = useErrorBoundary()
 
   const {
@@ -38,7 +37,8 @@ const UserInfo = () => {
     data: orderData,
   } = useQuery({
     queryKey: ['orderData'],
-    queryFn: () => axios.get('/v1/orders').then((res) => res.data),
+    queryFn: () =>
+      axios.get(`${import.meta.env.API_URL}/v1/orders`).then((res) => res.data),
   })
 
   const {
@@ -53,14 +53,15 @@ const UserInfo = () => {
 
   useEffect(() => {
     setUserInfo(userResponseData)
-    updateOrders(orderResponseData)
+    setOrders(orderResponseData)
   }, [orderData, userData])
 
   const onSubmitProductSearch = (searchText: string) => {
     console.log('Search text', searchText)
   }
 
-  if (userIsLoading) return <CircularProgress />
+  if (userIsLoading)
+    return <CircularProgress data-testid="user-loading-circle" />
 
   if (userErrors || ordersErrors) showBoundary(userErrors || ordersErrors)
 
@@ -73,11 +74,12 @@ const UserInfo = () => {
       />
       <div aria-label="orders-table">
         {ordersIsLoading ? (
-          <CircularProgress color="secondary" />
+          <CircularProgress
+            color="secondary"
+            data-testid="orders-loading-circle"
+          />
         ) : (
-          orderSnap.orders.map((order) => (
-            <div key={order.id}>{order.productName}</div>
-          ))
+          orders.map((order) => <div key={order.id}>{order.productName}</div>)
         )}
       </div>
     </Container>

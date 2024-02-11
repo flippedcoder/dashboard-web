@@ -1,6 +1,7 @@
 import { Button } from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
   const [isNavOpen, setIsNavOpen] = useState(true)
@@ -24,7 +25,7 @@ const NavBar = () => {
         }}
       >
         <nav>Orders</nav>
-        <nav>Actions</nav>
+        <Link to="/actions">Actions</Link>
         <nav>Products</nav>
         <nav>Settings</nav>
         <nav>Logout</nav>
