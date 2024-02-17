@@ -22,12 +22,18 @@ const SearchBar = (props: SearchBarProps) => {
   const searchFieldInputProps = {
     maxLength: 15,
     minLength: 3,
-    required: true,
   }
 
   return (
     <Form
       onSubmit={onSubmitSearch}
+      validate={(values) => {
+        const errors = {}
+        if (!values.search) {
+          errors.search = 'Need a search term'
+        }
+        return errors
+      }}
       render={({ handleSubmit }) => (
         <FullWidthForm
           aria-label={`${props.name}-search-form`}
@@ -35,21 +41,24 @@ const SearchBar = (props: SearchBarProps) => {
         >
           <Field
             name="search"
-            render={({ input }) => (
-              <Input
-                aria-label={`${props.name}-search-input`}
-                id={`${props.name}Search`}
-                placeholder={`Search ${props.name}...`}
-                type="search"
-                fullWidth
-                inputProps={searchFieldInputProps}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                }
-                {...input}
-              />
+            render={({ input, meta }) => (
+              <>
+                <Input
+                  aria-label={`${props.name}-search-input`}
+                  id={`${props.name}Search`}
+                  placeholder={`Search ${props.name}...`}
+                  type="search"
+                  fullWidth
+                  inputProps={searchFieldInputProps}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  }
+                  {...input}
+                />
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </>
             )}
           />
         </FullWidthForm>

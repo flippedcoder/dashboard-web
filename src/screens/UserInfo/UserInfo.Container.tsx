@@ -8,6 +8,7 @@ import { Order } from './UserInfo.State'
 import Header from '../../components/Header'
 import { userResponseData } from '../../mocks/users'
 import { orderResponseData } from '../../mocks/orders'
+import OrderForm from '../../elements/Forms'
 
 export interface UserInfoData {
   name: string
@@ -72,6 +73,7 @@ const UserInfo = () => {
         joinedDate={userInfo.joinedDate}
         onSubmitSearch={onSubmitProductSearch}
       />
+      <OrderForm />
       <div aria-label="orders-table">
         {ordersIsLoading ? (
           <CircularProgress
