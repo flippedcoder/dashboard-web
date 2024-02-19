@@ -1,14 +1,25 @@
-import { useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
 import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+import styled from 'styled-components'
 import { Order } from './UserInfo.State'
-import Header from '../../components/Header'
 import { userResponseData } from '../../mocks/users'
 import { orderResponseData } from '../../mocks/orders'
 import OrderForm from '../../elements/Forms'
+import Header from '../../components/Header'
+
+const OrdersTable = lazy(() =>
+  delayForDemo(import('../../components/OrdersTable'))
+)
+
+function delayForDemo(promise) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 4000)
+  }).then(() => promise)
+}
 
 export interface UserInfoData {
   name: string
@@ -26,17 +37,25 @@ const initialUserInfo = {
   nextDeliveryDate: '',
 }
 
+const TableLoadingSkeleton = styled.div`
+  border: 20px solid #808080;
+  height: 110px;
+  width: 110px;
+`
+
 const UserInfo = () => {
   const [orders, setOrders] = useState<Order[]>([])
   const [userInfo, setUserInfo] = useState<UserInfoData>(initialUserInfo)
 
   const { showBoundary } = useErrorBoundary()
 
-  const {
-    isLoading: ordersIsLoading,
-    error: ordersErrors,
-    data: orderData,
-  } = useQuery({
+  const { error: ordersErrors, data: orderData } = useQuery({
+    // data stays in cache for 1 hour (in milliseconds) and is garbage collected afterwards
+    gcTime: 3600000,
+    // data is refetched after 1 hour (in milliseconds)
+    refetchInterval: 3600000,
+    // data becomes stale after 30 minutes (in milliseconds)
+    staleTime: 1800000,
     queryKey: ['orderData'],
     queryFn: () =>
       axios.get(`${import.meta.env.API_URL}/v1/orders`).then((res) => res.data),
@@ -68,22 +87,27 @@ const UserInfo = () => {
 
   return (
     <Container component="section">
-      <Header
-        userName={userInfo.name}
-        joinedDate={userInfo.joinedDate}
-        onSubmitSearch={onSubmitProductSearch}
-      />
-      <OrderForm />
-      <div aria-label="orders-table">
-        {ordersIsLoading ? (
+      <Suspense
+        fallback={
           <CircularProgress
             color="secondary"
+            size={100}
             data-testid="orders-loading-circle"
           />
-        ) : (
-          orders.map((order) => <div key={order.id}>{order.productName}</div>)
-        )}
-      </div>
+        }
+      >
+        <Header
+          userName={userInfo.name}
+          joinedDate={userInfo.joinedDate}
+          onSubmitSearch={onSubmitProductSearch}
+        />
+      </Suspense>
+      <OrderForm />
+      <Suspense
+        fallback={<TableLoadingSkeleton data-testid="orders-loading-circle" />}
+      >
+        <OrdersTable orders={orders} />
+      </Suspense>
     </Container>
   )
 }
