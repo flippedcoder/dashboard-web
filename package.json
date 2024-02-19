@@ -29,7 +29,8 @@
     "react-final-form": "^6.5.9",
     "react-router-dom": "^6.21.0",
     "styled-components": "^6.1.1",
-    "valtio": "^1.12.1"
+    "valtio": "^1.12.1",
+    "vite-bundle-visualizer": "^1.0.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.17.7",

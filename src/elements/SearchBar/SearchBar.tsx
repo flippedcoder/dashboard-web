@@ -28,7 +28,7 @@ const SearchBar = (props: SearchBarProps) => {
     <Form
       onSubmit={onSubmitSearch}
       validate={(values) => {
-        const errors = {}
+        const errors: { search: string } = { search: '' }
         if (!values.search) {
           errors.search = 'Need a search term'
         }
