@@ -15,7 +15,9 @@ const OrdersTable = lazy(() =>
   delayForDemo(import('../../components/OrdersTable'))
 )
 
-function delayForDemo(promise) {
+function delayForDemo(
+  promise: Promise<typeof import('../../components/OrdersTable')>
+) {
   return new Promise((resolve) => {
     setTimeout(resolve, 4000)
   }).then(() => promise)
@@ -58,7 +60,7 @@ const UserInfo = () => {
     staleTime: 1800000,
     queryKey: ['orderData'],
     queryFn: () =>
-      axios.get(`${import.meta.env.API_URL}/v1/orders`).then((res) => res.data),
+      axios.get('https://fakestoreapi.com/products').then((res) => res.data),
   })
 
   const {
@@ -68,7 +70,7 @@ const UserInfo = () => {
   } = useQuery({
     queryKey: ['userData'],
     queryFn: () =>
-      axios.get(`${import.meta.env.API_URL}/v1/users`).then((res) => res.data),
+      axios.get('https://fakestoreapi.com/users').then((res) => res.data),
   })
 
   useEffect(() => {
