@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import { Form, Field } from 'react-final-form'
 import styled from 'styled-components'
 
-interface SearchBarProps {
+export interface SearchBarProps {
   name: string
   onSubmitSearch: (searchText: string) => void
 }

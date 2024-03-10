@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
 import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
@@ -10,18 +10,20 @@ import { userResponseData } from '../../mocks/users'
 import { orderResponseData } from '../../mocks/orders'
 import OrderForm from '../../elements/Forms'
 import Header from '../../components/Header'
+import OrdersTable from '../../components/OrdersTable'
 
-const OrdersTable = lazy(() =>
-  delayForDemo(import('../../components/OrdersTable'))
-)
+// Uncomment this and delete the OrdersTable import to see how lazy rendering work
+// const OrdersTable = lazy(() =>
+//   delayForDemo(import('../../components/OrdersTable'))
+// )
 
-function delayForDemo(
-  promise: Promise<typeof import('../../components/OrdersTable')>
-) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 4000)
-  }).then(() => promise)
-}
+// function delayForDemo(
+//   promise: Promise<typeof import('../../components/OrdersTable')>
+// ) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, 4000)
+//   }).then(() => promise)
+// }
 
 export interface UserInfoData {
   name: string

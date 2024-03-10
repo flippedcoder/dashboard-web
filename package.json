@@ -11,7 +11,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky install",
-    "test": "vitest run --config vite.config.ts src/screens/UserInfo/UserInfo.Container.test.tsx"
+    "test": "vitest run --config vite.config.ts"
   },
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.0.1",
