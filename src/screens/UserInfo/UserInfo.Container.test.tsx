@@ -39,7 +39,7 @@ describe('<UserInfo />', () => {
 
   it('should render the user info screen', async () => {
     await act(async () => {
-      await ui()
+      ui()
     })
 
     expect(screen.getByPlaceholderText('Search products...')).toBeDefined()
@@ -53,7 +53,7 @@ describe('<UserInfo />', () => {
     })
 
     await act(async () => {
-      await ui()
+      ui()
     })
 
     expect(screen.getByTestId('user-loading-circle')).toBeDefined()
