@@ -1,8 +1,10 @@
 version: 2.1
 orbs:
   node: circleci/node@5.1.1
+  cypress: cypress-io/cypress@3
+  snyk: snyk/snyk@2.1.0
 jobs:
-  test:
+  unit-test:
     docker:
       - image: 'cimg/base:stable'
     steps:
@@ -11,8 +13,80 @@ jobs:
           node-version: '21.2'
       - node/install-packages
       - run:
+          command: npm run lint
+      - run:
           command: npm run test
+  security-scan:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - node/install:
+          node-version: '21.2'
+      - node/install-packages
+      - snyk/scan
+  build:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - node/install:
+          node-version: '21.2'
+      - node/install-packages
+      - run:
+          command: npm run build
+  deploy-dev:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - run:
+          name: 'dev env vars'
+          command: |
+            echo $API_URL_DEV
+  deploy-staging:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - run:
+          name: 'staging env vars'
+          command: |
+            echo $API_URL_STAGING
+  deploy-prod:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - run:
+          name: 'prod env vars'
+          command: |
+            echo $API_URL_PROD
 workflows:
-  test:
+  build-and-tests:
     jobs:
-      - test
+      - build
+      - unit-test:
+          requires:
+            - build
+      - security-scan:
+          requires:
+            - unit-test
+  integration-test:
+    jobs:
+      - cypress/run:
+          start-command: npm run start
+  deploy:
+    jobs:
+      - deploy-dev:
+          filters:
+            branches:
+              only: develop
+      - deploy-staging:
+          filters:
+            branches:
+              only: staging
+      - deploy-prod:
+          filters:
+            branches:
+              only: main
