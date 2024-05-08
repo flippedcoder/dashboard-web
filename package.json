@@ -15,8 +15,6 @@
     "test": "vitest run --config vite.config.ts"
   },
   "dependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "^20.0.1",
-    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.19",
@@ -30,12 +28,17 @@
     "react-final-form": "^6.5.9",
     "react-router-dom": "^6.21.0",
     "styled-components": "^6.1.1",
-    "valtio": "^1.12.1",
-    "vite-bundle-visualizer": "^1.0.1"
+    "valtio": "^1.12.1"
   },
   "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^20.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "@nightwatch/mobile-helper": "^0.1.12",
+    "@playwright/test": "^1.43.1",
+    "@swc/core": "^1.4.17",
     "@tanstack/eslint-plugin-query": "^5.17.7",
     "@testing-library/react": "^14.1.2",
+    "@types/node": "^20.12.7",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
@@ -48,9 +51,12 @@
     "husky": "^8.0.0",
     "jsdom": "^23.0.1",
     "msw": "^2.1.7",
+    "nightwatch": "^3.6.1",
     "prettier": "3.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
+    "vite-bundle-visualizer": "^1.0.1",
     "vitest": "^0.34.6"
   },
   "msw": {
