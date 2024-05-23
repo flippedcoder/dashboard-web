@@ -1,7 +1,9 @@
 import { Box, Button, Typography } from '@mui/material'
 import { ErrorFallbackProps } from '../../types/errorTypes'
+import datadogLogger from '../../utils/loggers/datadog'
 
 const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => {
+  datadogLogger.error(error.message)
   return (
     <Box
       margin="24px auto"

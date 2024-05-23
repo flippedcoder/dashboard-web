@@ -11,6 +11,7 @@ import { orderResponseData } from '../../mocks/orders'
 import OrderForm from '../../elements/Forms'
 import Header from '../../components/Header'
 import OrdersTable from '../../components/OrdersTable'
+import datadogLogger from '../../utils/loggers/datadog'
 
 // Uncomment this and delete the OrdersTable import to see how lazy rendering work
 // const OrdersTable = lazy(() =>
@@ -82,6 +83,7 @@ const UserInfo = () => {
 
   const onSubmitProductSearch = (searchText: string) => {
     console.log('Search text', searchText)
+    datadogLogger.info(`Search text: ${searchText}`)
   }
 
   if (userIsLoading)
