@@ -1,4 +1,4 @@
-import { UserInfoData } from '../screens/UserInfo/UserInfo.Container'
+import { UserInfoData } from '../pages/UserInfo/UserInfo.State'
 
 export const userResponseData: UserInfoData = {
   name: 'Some Body',
