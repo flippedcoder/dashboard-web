@@ -1,4 +1,4 @@
-import { Order, OrderStatus } from '../screens/UserInfo/UserInfo.State'
+import { Order, OrderStatus } from '../pages/UserInfo/UserInfo.State'
 
 export const orderResponseData: Order[] = [
   {
