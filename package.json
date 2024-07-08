@@ -23,7 +23,7 @@
     "@mui/icons-material": "^5.14.19",
     "@mui/material": "^5.14.19",
     "@sentry/react": "^8.2.1",
-    "@tanstack/react-query": "^5.17.9",
+    "@tanstack/react-query": "^5.50.1",
     "axios": "^1.6.5",
     "logrocket": "^8.1.0",
     "react": "^18.2.0",
@@ -58,8 +58,8 @@
     "prettier": "3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
-    "vite": "^5.0.0",
-    "vitest": "^0.34.6"
+    "vite": "^5.3.3",
+    "vitest": "^2.0.1"
   },
   "msw": {
     "workerDirectory": [
