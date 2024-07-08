@@ -18,8 +18,8 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
 })
 
-export async function enableMocking() {
-  if (process.env.NODE_ENV !== 'development') {
+export async function shouldEnableMocking() {
+  if (import.meta.env.MODE !== 'development') {
     return
   }
 
@@ -29,6 +29,8 @@ export async function enableMocking() {
   // once the Service Worker is up and ready to intercept requests.
   return worker.start()
 }
+
+shouldEnableMocking()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
