@@ -2,13 +2,14 @@
 /* tslint:disable */
 
 /**
- * Mock Service Worker (2.1.7).
+ * Mock Service Worker.
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  * - Please do NOT serve this file on production.
  */
 
-const INTEGRITY_CHECKSUM = '223d191a56023cd36aa88c802961b911'
+const PACKAGE_VERSION = '2.3.5'
+const INTEGRITY_CHECKSUM = '26357c79639bfa20d64c0efca2a87423'
 const IS_MOCKED_RESPONSE = Symbol('isMockedResponse')
 const activeClientIds = new Set()
 
@@ -48,7 +49,10 @@ self.addEventListener('message', async function (event) {
     case 'INTEGRITY_CHECK_REQUEST': {
       sendToClient(client, {
         type: 'INTEGRITY_CHECK_RESPONSE',
-        payload: INTEGRITY_CHECKSUM,
+        payload: {
+          packageVersion: PACKAGE_VERSION,
+          checksum: INTEGRITY_CHECKSUM,
+        },
       })
       break
     }
@@ -136,7 +140,7 @@ async function handleRequest(event, requestId) {
             headers: Object.fromEntries(responseClone.headers.entries()),
           },
         },
-        [responseClone.body]
+        [responseClone.body],
       )
     })()
   }
@@ -202,13 +206,6 @@ async function getResponse(event, client, requestId) {
     return passthrough()
   }
 
-  // Bypass requests with the explicit bypass header.
-  // Such requests can be issued by "ctx.fetch()".
-  const mswIntention = request.headers.get('x-msw-intention')
-  if (['bypass', 'passthrough'].includes(mswIntention)) {
-    return passthrough()
-  }
-
   // Notify the client that a request has been intercepted.
   const requestBuffer = await request.arrayBuffer()
   const clientMessage = await sendToClient(
@@ -232,7 +229,7 @@ async function getResponse(event, client, requestId) {
         keepalive: request.keepalive,
       },
     },
-    [requestBuffer]
+    [requestBuffer],
   )
 
   switch (clientMessage.type) {
@@ -240,7 +237,7 @@ async function getResponse(event, client, requestId) {
       return respondWithMock(clientMessage.data)
     }
 
-    case 'MOCK_NOT_FOUND': {
+    case 'PASSTHROUGH': {
       return passthrough()
     }
   }
@@ -262,7 +259,7 @@ function sendToClient(client, message, transferrables = []) {
 
     client.postMessage(
       message,
-      [channel.port2].concat(transferrables.filter(Boolean))
+      [channel.port2].concat(transferrables.filter(Boolean)),
     )
   })
 }

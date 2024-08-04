@@ -12,7 +12,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky install",
-    "test": "vitest run --config vite.config.ts"
+    "test": "vitest run --config vite.config.ts",
+    "scan": "auditjs ossi"
   },
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.0.1",
@@ -47,6 +48,7 @@
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react": "^4.2.0",
+    "auditjs": "^4.0.45",
     "cypress": "^13.10.0",
     "eslint": "^8.53.0",
     "eslint-plugin-react-hooks": "^4.6.0",
