@@ -1,25 +1,36 @@
-import { useState } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { RouterProvider } from 'react-router-dom'
+import styled from 'styled-components'
 import theme from './theme'
+import NavBar from './components/NavBar'
+import router from './routes'
 
-function App() {
-  const [count, setCount] = useState(0)
+const AppContainer = styled(Box)`
+  display: flex;
+`
 
+const CurrentScreen = styled(Box)`
+  width: calc(100% - 240px);
+  margin-left: 240px;
+`
+// Create a client
+const queryClient = new QueryClient()
+
+const App = () => {
+  // Do some stuff here
   return (
-    <ThemeProvider theme={theme}>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <AppContainer component="main">
+          <NavBar />
+          <CurrentScreen component="section">
+            <RouterProvider router={router} />
+          </CurrentScreen>
+        </AppContainer>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 
